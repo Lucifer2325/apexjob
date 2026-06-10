@@ -392,8 +392,8 @@ function renderJobs() {
                 ${hasMore ? `<div class="job-desc-full" id="job-full-${job.id || idx}">${escapeHTML(job.description || '')}</div>
                 <button class="btn-read-more" onclick="toggleJobDesc(${job.id || idx})">Read More</button>` : ''}
                 <div class="job-actions">
-                    <a href="${escapeHTML(job.link || job.url || '#')}" target="_blank" class="btn-primary" style="background: linear-gradient(135deg, var(--secondary), var(--accent)); color: white;"><i data-lucide="external-link"></i> Apply Now</a>
-                    <button class="btn-secondary" onclick="tailorFromJob(${job.id || idx})"><i data-lucide="sparkles"></i> Tailor &amp; RezPass</button>
+                    <a href="${escapeHTML(job.link || job.url || '#')}" target="_blank" class="btn-secondary"><i data-lucide="external-link"></i> View Posting</a>
+                    <button class="btn-primary" onclick="tailorFromJob(${job.id || idx})"><i data-lucide="sparkles"></i> Tailor &amp; RezPass</button>
                 </div>
             </div>
         `;
@@ -412,7 +412,7 @@ function toggleJobDesc(jobId) {
 }
 
 function tailorFromJob(jobId) {
-    const job = appState.jobs.find(j => (j.id || 0) === jobId) || appState.jobs[jobId] || {};
+    const job = appState.jobs.find(j => j.id !== undefined && j.id === jobId) || appState.jobs[jobId] || {};
     document.getElementById('job-title').value = job.title || '';
     document.getElementById('job-company').value = job.company_name || '';
     document.getElementById('job-url').value = job.link || job.url || '';
@@ -749,7 +749,7 @@ function updateTrackerUI() {
             else if (entry.atsScore > 0) { atsColor = 'var(--danger)'; atsBg = 'rgba(239,68,68,0.1)'; }
 
             const titleHtml = entry.url 
-                ? `<a href="${escapeHTML(entry.url)}" target="_blank" class="tracker-card-link-title" style="color:var(--text-primary);text-decoration:none;transition:var(--transition);" title="Open Job Posting">${escapeHTML(entry.title)} <i data-lucide="external-link" class="inline-icon" style="width:11px;height:11px;display:inline-block;opacity:0.6;margin-left:2px;vertical-align:middle;"></i></a>`
+                ? `<a href="${escapeHTML(entry.url)}" target="_blank" class="tracker-card-link-title" style="color:var(--text-primary);text-decoration:none;transition:var(--transition);" title="Open Job Posting" draggable="false">${escapeHTML(entry.title)} <i data-lucide="external-link" class="inline-icon" style="width:11px;height:11px;display:inline-block;opacity:0.6;margin-left:2px;vertical-align:middle;" draggable="false"></i></a>`
                 : `<span class="tracker-card-title-text">${escapeHTML(entry.title)}</span>`;
 
             return `
@@ -759,7 +759,7 @@ function updateTrackerUI() {
                     <div class="tracker-card-source">${escapeHTML(entry.source || '')}</div>
                     ${entry.atsScore > 0 ? `<span class="tracker-card-ats" style="color:${atsColor};background:${atsBg}">ATS: ${entry.atsScore}%</span>` : ''}
                     <div class="tracker-card-actions">
-                        ${entry.url ? `<a href="${escapeHTML(entry.url)}" target="_blank" class="btn-url-link" title="Apply Now" style="text-decoration:none;"><i data-lucide="external-link"></i></a>` : ''}
+                        ${entry.url ? `<a href="${escapeHTML(entry.url)}" target="_blank" class="btn-url-link" title="Apply Now" style="text-decoration:none;" draggable="false"><i data-lucide="external-link" draggable="false"></i></a>` : ''}
                         <button class="btn-advance" onclick="advanceTrackerStatus('${entry.id}')" title="Advance"><i data-lucide="arrow-right"></i></button>
                         <button class="btn-delete" onclick="deleteTrackerEntry('${entry.id}')" title="Delete"><i data-lucide="trash-2"></i></button>
                     </div>
