@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexJob — Remote Career Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- ═══════════ SIDEBAR ═══════════ -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="logo">
+                    <div class="logo-icon"><i data-lucide="shield-check"></i></div>
+                    <span class="logo-text">Apex<span class="logo-accent">Job</span></span>
+                </div>
+                <nav class="nav-menu">
+                    <button class="nav-btn active" data-tab="dashboard-tab">
+                        <i data-lucide="layout-dashboard"></i><span class="nav-label">Dashboard</span>
+                    </button>
+                    <button class="nav-btn" data-tab="jobs-tab">
+                        <i data-lucide="briefcase"></i><span class="nav-label">Remote Jobs</span>
+                    </button>
+                    <button class="nav-btn" data-tab="boards-tab">
+                        <i data-lucide="globe"></i><span class="nav-label">Board Hub</span>
+                    </button>
+                    <button class="nav-btn" data-tab="tailor-tab">
+                        <i data-lucide="sparkles"></i><span class="nav-label">AI Tailoring</span>
+                    </button>
+                    <button class="nav-btn" data-tab="tracker-tab">
+                        <i data-lucide="kanban"></i><span class="nav-label">Pipeline</span>
+                    </button>
+                    <button class="nav-btn" data-tab="settings-tab">
+                        <i data-lucide="settings"></i><span class="nav-label">Settings</span>
+                    </button>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="daily-target-widget">
+                    <div class="widget-header">
+                        <i data-lucide="target"></i>
+                        <span class="nav-label">Daily Target</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" id="daily-progress"></div>
+                    </div>
+                    <div class="target-info">
+                        <span id="target-fraction">0 / 5</span>
+                        <span id="target-percent">0%</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══════════ MAIN CONTENT ═══════════ -->
+        <main class="main-content">
+
+            <!-- ──── TAB 1: DASHBOARD ──── -->
+            <div id="dashboard-tab" class="tab-pane active">
+                <div class="tab-header">
+                    <h1>Command Center</h1>
+                    <p class="subtitle">Your career ops at a glance</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon si-cyan"><i data-lucide="file-text"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-total-tracked">0</span>
+                            <span class="stat-label">Total Tracked</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-green"><i data-lucide="send"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-applied-today">0</span>
+                            <span class="stat-label">Applied Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-purple"><i data-lucide="video"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-interviews">0</span>
+                            <span class="stat-label">Interviews</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon si-amber"><i data-lucide="gauge"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-avg-ats">—</span>
+                            <span class="stat-label">Avg ATS Score</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-two-col">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i data-lucide="clock"></i> Recent Applications</h3>
+                        <ul id="recent-apps-list" class="recent-apps-list"></ul>
+                        <p class="empty-state" id="recent-apps-empty">No applications tracked yet. Start applying!</p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title"><i data-lucide="zap"></i> Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="action-btn" data-goto="jobs-tab">
+                                <i data-lucide="briefcase"></i>
+                                <span>Browse Remote Jobs</span>
+                            </button>
+                            <button class="action-btn" data-goto="boards-tab">
+                                <i data-lucide="globe"></i>
+                                <span>Open Board Hub</span>
+                            </button>
+                            <button class="action-btn" data-goto="tailor-tab">
+                                <i data-lucide="sparkles"></i>
+                                <span>Tailor Resume</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ──── TAB 2: REMOTE JOBS ──── -->
+            <div id="jobs-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h1>Remote Opportunities</h1>
+                    <p class="subtitle">Curated openings from top remote boards</p>
+                </div>
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">All Roles</button>
+                    <button class="filter-btn" data-filter="it_support">Help Desk &amp; IT Support</button>
+                    <button class="filter-btn" data-filter="frontend">Web Development</button>
+                    <button class="filter-btn" data-filter="customer_support">Operations</button>
+                    <button class="filter-btn" data-filter="digital_growth">Growth &amp; AI</button>
+                </div>
+                <div class="sub-bar">
+                    <div class="search-wrap">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="job-search-input" placeholder="Search jobs...">
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="filter-entry-level" checked> Entry-level only
+                    </label>
+                    <button class="btn-icon" id="btn-refresh-jobs" title="Refresh jobs">
+                        <i data-lucide="refresh-cw"></i>
+                    </button>
+                </div>
+                <div id="jobs-container">
+                    <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w90"></div></div>
+                    <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w90"></div></div>
+                    <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w90"></div></div>
+                </div>
+            </div>
+
+            <!-- ──── TAB 3: BOARD HUB ──── -->
+            <div id="boards-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h1>Job Board Command Center</h1>
+                    <p class="subtitle">Quick-launch curated searches across premium remote job boards</p>
+                </div>
+
+                <div class="section-label"><span class="dot green"></span> Active Boards</div>
+                <div class="boards-grid">
+                    <!-- 1. Remotive -->
+                    <div class="board-card" data-source="Remotive" style="--board-accent:#6366f1">
+                        <div class="board-header">
+                            <span class="board-emoji">🚀</span>
+                            <div>
+                                <h4 class="board-name">Remotive</h4>
+                                <p class="board-desc">Curated tech &amp; product remote jobs with API access</p>
+                            </div>
+                            <span class="status-badge api">API</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://remotive.com/remote-jobs/search?query=support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://remotive.com/remote-jobs/software-dev" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 2. We Work Remotely -->
+                    <div class="board-card" data-source="We Work Remotely" style="--board-accent:#ef6c35">
+                        <div class="board-header">
+                            <span class="board-emoji">🌍</span>
+                            <div>
+                                <h4 class="board-name">We Work Remotely</h4>
+                                <p class="board-desc">Largest remote work community with RSS feeds</p>
+                            </div>
+                            <span class="status-badge api">API</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://weworkremotely.com/remote-jobs/search?term=IT+support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://weworkremotely.com/remote-jobs/search?term=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 3. Career Hound -->
+                    <div class="board-card" data-source="Career Hound" style="--board-accent:#06b6d4">
+                        <div class="board-header">
+                            <span class="board-emoji">🐕</span>
+                            <div>
+                                <h4 class="board-name">Career Hound</h4>
+                                <p class="board-desc">Scrapes hidden jobs from company career pages</p>
+                            </div>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://careerhound.io/?q=support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://careerhound.io/?q=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 4. Jobspresso -->
+                    <div class="board-card" data-source="Jobspresso" style="--board-accent:#8b5cf6">
+                        <div class="board-header">
+                            <span class="board-emoji">☕</span>
+                            <div>
+                                <h4 class="board-name">Jobspresso</h4>
+                                <p class="board-desc">Curated high-quality remote openings in tech</p>
+                            </div>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://jobspresso.co/?s=support+engineer" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://jobspresso.co/?s=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 5. Dynamite Jobs -->
+                    <div class="board-card" data-source="Dynamite Jobs" style="--board-accent:#f97316">
+                        <div class="board-header">
+                            <span class="board-emoji">💥</span>
+                            <div>
+                                <h4 class="board-name">Dynamite Jobs</h4>
+                                <p class="board-desc">Vetted fully remote jobs for digital nomads</p>
+                            </div>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://dynamitejobs.com/remote-jobs?search=IT+support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://dynamitejobs.com/remote-jobs?search=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 6. SkipTheDrive -->
+                    <div class="board-card" data-source="SkipTheDrive" style="--board-accent:#14b8a6">
+                        <div class="board-header">
+                            <span class="board-emoji">🏠</span>
+                            <div>
+                                <h4 class="board-name">SkipTheDrive</h4>
+                                <p class="board-desc">Search aggregator for remote &amp; WFH positions</p>
+                            </div>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://www.skipthedrive.com/?s=IT+support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://www.skipthedrive.com/?s=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 7. Outsourcely -->
+                    <div class="board-card" data-source="Outsourcely" style="--board-accent:#ec4899">
+                        <div class="board-header">
+                            <span class="board-emoji">🤝</span>
+                            <div>
+                                <h4 class="board-name">Outsourcely</h4>
+                                <p class="board-desc">Connects remote workers with startups &amp; SMEs</p>
+                            </div>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://www.outsourcely.com/remote-workers?q=support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://www.outsourcely.com/remote-workers?q=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                    <!-- 8. Virtual Vocations -->
+                    <div class="board-card" data-source="Virtual Vocations" style="--board-accent:#eab308">
+                        <div class="board-header">
+                            <span class="board-emoji">✨</span>
+                            <div>
+                                <h4 class="board-name">Virtual Vocations</h4>
+                                <p class="board-desc">Hand-screened, spam-free remote job listings</p>
+                            </div>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                        <div class="board-actions">
+                            <a href="https://www.virtualvocations.com/jobs?q=IT+support" target="_blank" class="btn-board-search">IT Support Jobs</a>
+                            <a href="https://www.virtualvocations.com/jobs?q=web+developer" target="_blank" class="btn-board-search">Web Dev Jobs</a>
+                        </div>
+                        <div class="quick-log-row">
+                            <input type="text" class="quick-log-title" placeholder="Job title">
+                            <input type="text" class="quick-log-company" placeholder="Company">
+                            <input type="text" class="quick-log-url" placeholder="Job Link">
+                            <button class="btn-quick-log">Log Applied</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-label"><span class="dot red"></span> Discontinued</div>
+                <div class="boards-grid">
+                    <div class="board-card defunct">
+                        <div class="board-header">
+                            <span class="board-emoji">🐙</span>
+                            <div><h4 class="board-name">GitHub Jobs</h4><p class="board-desc">Shut down in 2021</p></div>
+                        </div>
+                    </div>
+                    <div class="board-card defunct">
+                        <div class="board-header">
+                            <span class="board-emoji">🇪🇺</span>
+                            <div><h4 class="board-name">EuropeRemotely</h4><p class="board-desc">No longer operating</p></div>
+                        </div>
+                    </div>
+                    <div class="board-card defunct">
+                        <div class="board-header">
+                            <span class="board-emoji">☁️</span>
+                            <div><h4 class="board-name">CloudPeeps</h4><p class="board-desc">Shut down in 2023</p></div>
+                        </div>
+                    </div>
+                    <div class="board-card defunct">
+                        <div class="board-header">
+                            <span class="board-emoji">🌎</span>
+                            <div><h4 class="board-name">Pangian</h4><p class="board-desc">Inactive, reported scam activity</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ──── TAB 4: AI TAILORING ──── -->
+            <div id="tailor-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h1>AI Application Tailoring &amp; RezPass</h1>
+                    <p class="subtitle">Optimize your resume and cover letter for each application</p>
+                </div>
+                <div class="tailor-grid">
+                    <!-- Left: Inputs -->
+                    <div class="glass-card tailor-input-card">
+                        <h3 class="card-title"><i data-lucide="file-input"></i> Job Details</h3>
+                        <div class="form-group">
+                            <label for="job-title">Job Title</label>
+                            <input type="text" id="job-title" placeholder="e.g. Technical Support Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-company">Company</label>
+                            <input type="text" id="job-company" placeholder="e.g. Acme Corp">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-url">Job URL / Application Link</label>
+                            <input type="text" id="job-url" placeholder="e.g. https://example.com/apply">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-source-board">Source Board</label>
+                            <select id="job-source-board">
+                                <option value="Remotive">Remotive</option>
+                                <option value="We Work Remotely">We Work Remotely</option>
+                                <option value="Jobspresso">Jobspresso</option>
+                                <option value="Dynamite Jobs">Dynamite Jobs</option>
+                                <option value="Virtual Vocations">Virtual Vocations</option>
+                                <option value="Career Hound">Career Hound</option>
+                                <option value="SkipTheDrive">SkipTheDrive</option>
+                                <option value="Outsourcely">Outsourcely</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-desc">Job Description</label>
+                            <textarea id="job-desc" rows="6" placeholder="Paste the full job description here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-select">Career Track</label>
+                            <select id="profile-select">
+                                <option value="it_support">IT Support &amp; DevOps</option>
+                                <option value="frontend">Web Development</option>
+                                <option value="digital_growth">Growth &amp; AI</option>
+                            </select>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn-primary" id="btn-generate-ai"><i data-lucide="sparkles"></i> Optimize &amp; Generate</button>
+                            <button class="btn-secondary" id="btn-quick-fill-master"><i data-lucide="database"></i> Load Master Data</button>
+                        </div>
+                        <div class="alert-warning hidden" id="api-key-warning">
+                            <i data-lucide="alert-triangle"></i>
+                            <span>No Gemini API key set. Using heuristic templates instead. Add your key in Settings for AI-powered tailoring.</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Output -->
+                    <div class="glass-card tailor-output-card">
+                        <!-- RezPass Panel -->
+                        <div class="rezpass-panel">
+                            <div class="rezpass-info">
+                                <h3 class="card-title"><i data-lucide="shield-check"></i> RezPass Score</h3>
+                                <p class="rezpass-desc">ATS compatibility analysis against job description keywords.</p>
+                                <div class="form-group compact">
+                                    <label for="ats-score-override">Manual Override</label>
+                                    <input type="number" id="ats-score-override" min="0" max="100" placeholder="0-100">
+                                </div>
+                            </div>
+                            <div class="rezpass-ring">
+                                <svg width="110" height="110" viewBox="0 0 110 110">
+                                    <circle cx="55" cy="55" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                                    <circle id="ats-progress-circle" cx="55" cy="55" r="42" fill="none" stroke="#00f5d4" stroke-width="8" stroke-linecap="round" stroke-dasharray="263.89" stroke-dashoffset="263.89"/>
+                                    <text id="ats-score-text" x="55" y="55" text-anchor="middle" dominant-baseline="central" fill="#f0f2f5" font-family="Outfit" font-size="24" font-weight="700">—</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Keyword Audit -->
+                        <div class="keyword-audit">
+                            <div class="keyword-col">
+                                <h4 class="keyword-title matched">Matched Keywords</h4>
+                                <div id="ats-matched-pills" class="pills-container"></div>
+                            </div>
+                            <div class="keyword-col">
+                                <h4 class="keyword-title missing">Missing Keywords</h4>
+                                <div id="ats-missing-pills" class="pills-container"></div>
+                            </div>
+                        </div>
+
+                        <!-- Output Tabs -->
+                        <div class="output-tabs-bar">
+                            <button class="output-tab active" data-output="resume">Tailored Resume</button>
+                            <button class="output-tab" data-output="cover-letter">Cover Letter</button>
+                            <button class="btn-icon copy-btn" id="btn-copy-output" title="Copy to clipboard"><i data-lucide="copy"></i></button>
+                        </div>
+                        <div id="output-resume-pane" class="output-pane active">
+                            <pre id="tailored-resume-pre">Generate a tailored resume by filling in job details and clicking "Optimize &amp; Generate".</pre>
+                        </div>
+                        <div id="output-cover-letter-pane" class="output-pane">
+                            <pre id="tailored-letter-pre">Cover letter will appear here after generation.</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ──── TAB 5: PIPELINE ──── -->
+            <div id="tracker-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h1>Application Pipeline</h1>
+                    <div class="header-actions">
+                        <button class="btn-primary" id="btn-add-tracker"><i data-lucide="plus"></i> Add Application</button>
+                    </div>
+                </div>
+                <div class="kanban-board">
+                    <div class="kanban-column" data-status="saved">
+                        <div class="kanban-col-header">
+                            <span class="status-dot saved"></span>
+                            <h4>Wishlist</h4>
+                            <span class="count-badge" id="count-saved">0</span>
+                        </div>
+                        <div class="kanban-cards" id="col-saved"></div>
+                    </div>
+                    <div class="kanban-column" data-status="optimized">
+                        <div class="kanban-col-header">
+                            <span class="status-dot optimized"></span>
+                            <h4>Optimized</h4>
+                            <span class="count-badge" id="count-optimized">0</span>
+                        </div>
+                        <div class="kanban-cards" id="col-optimized"></div>
+                    </div>
+                    <div class="kanban-column" data-status="applied">
+                        <div class="kanban-col-header">
+                            <span class="status-dot applied"></span>
+                            <h4>Applied</h4>
+                            <span class="count-badge" id="count-applied">0</span>
+                        </div>
+                        <div class="kanban-cards" id="col-applied"></div>
+                    </div>
+                    <div class="kanban-column" data-status="interview">
+                        <div class="kanban-col-header">
+                            <span class="status-dot interview"></span>
+                            <h4>Interviewing</h4>
+                            <span class="count-badge" id="count-interview">0</span>
+                        </div>
+                        <div class="kanban-cards" id="col-interview"></div>
+                    </div>
+                    <div class="kanban-column" data-status="offer">
+                        <div class="kanban-col-header">
+                            <span class="status-dot offer"></span>
+                            <h4>Offer / Closed</h4>
+                            <span class="count-badge" id="count-offer">0</span>
+                        </div>
+                        <div class="kanban-cards" id="col-offer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ──── TAB 6: SETTINGS ──── -->
+            <div id="settings-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h1>Settings &amp; Master Profile</h1>
+                    <p class="subtitle">Configure your API keys, targets, and career profiles</p>
+                </div>
+                <div class="settings-grid">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i data-lucide="key"></i> Configuration</h3>
+                        <div class="form-group">
+                            <label for="setting-gemini-key">Gemini API Key</label>
+                            <div class="input-with-action">
+                                <input type="password" id="setting-gemini-key" placeholder="Enter your Gemini API key">
+                                <button class="btn-icon" id="btn-toggle-key-visibility" title="Toggle visibility"><i data-lucide="eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="setting-daily-target">Daily Application Target</label>
+                            <input type="number" id="setting-daily-target" value="5" min="1" max="50">
+                        </div>
+                        <button class="btn-primary" id="btn-save-settings"><i data-lucide="save"></i> Save Settings</button>
+                    </div>
+
+                    <div class="glass-card profile-card">
+                        <h3 class="card-title"><i data-lucide="user-cog"></i> Master Profile</h3>
+                        <div class="profile-tabs">
+                            <button class="profile-tab active" data-prof-track="it_support">IT Support</button>
+                            <button class="profile-tab" data-prof-track="frontend">Frontend</button>
+                            <button class="profile-tab" data-prof-track="digital_growth">Growth &amp; AI</button>
+                        </div>
+                        <div id="prof-it_support-pane" class="profile-pane active">
+                            <div class="form-group"><label>Summary</label><textarea id="prof-it-summary" rows="4"></textarea></div>
+                            <div class="form-group"><label>Skills</label><textarea id="prof-it-skills" rows="4"></textarea></div>
+                            <div class="form-group"><label>Experience</label><textarea id="prof-it-experience" rows="6"></textarea></div>
+                        </div>
+                        <div id="prof-frontend-pane" class="profile-pane">
+                            <div class="form-group"><label>Summary</label><textarea id="prof-fe-summary" rows="4"></textarea></div>
+                            <div class="form-group"><label>Skills</label><textarea id="prof-fe-skills" rows="4"></textarea></div>
+                            <div class="form-group"><label>Experience</label><textarea id="prof-fe-experience" rows="6"></textarea></div>
+                        </div>
+                        <div id="prof-digital_growth-pane" class="profile-pane">
+                            <div class="form-group"><label>Summary</label><textarea id="prof-dg-summary" rows="4"></textarea></div>
+                            <div class="form-group"><label>Skills</label><textarea id="prof-dg-skills" rows="4"></textarea></div>
+                            <div class="form-group"><label>Experience</label><textarea id="prof-dg-experience" rows="6"></textarea></div>
+                        </div>
+                        <button class="btn-primary" id="btn-save-profile"><i data-lucide="save"></i> Save Profile</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ═══════════ MODAL: Add Application ═══════════ -->
+    <div id="add-job-modal" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Add Application</h2>
+                <button class="btn-icon" id="btn-close-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label for="modal-title">Job Title</label><input type="text" id="modal-title" placeholder="e.g. Support Engineer"></div>
+                <div class="form-group"><label for="modal-company">Company</label><input type="text" id="modal-company" placeholder="e.g. Acme Corp"></div>
+                <div class="form-group">
+                    <label for="modal-source">Source Board</label>
+                    <select id="modal-source">
+                        <option value="Remotive">Remotive</option>
+                        <option value="We Work Remotely">We Work Remotely</option>
+                        <option value="Jobspresso">Jobspresso</option>
+                        <option value="Dynamite Jobs">Dynamite Jobs</option>
+                        <option value="Virtual Vocations">Virtual Vocations</option>
+                        <option value="Career Hound">Career Hound</option>
+                        <option value="SkipTheDrive">SkipTheDrive</option>
+                        <option value="Outsourcely">Outsourcely</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label for="modal-url">Job URL</label><input type="text" id="modal-url" placeholder="https://..."></div>
+                <div class="form-group">
+                    <label for="modal-track">Career Track</label>
+                    <select id="modal-track">
+                        <option value="it_support">IT Support &amp; DevOps</option>
+                        <option value="frontend">Web Development</option>
+                        <option value="digital_growth">Growth &amp; AI</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="modal-status">Status</label>
+                    <select id="modal-status">
+                        <option value="saved">Wishlist</option>
+                        <option value="optimized">Optimized</option>
+                        <option value="applied">Applied</option>
+                        <option value="interview">Interviewing</option>
+                        <option value="offer">Offer / Closed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-cancel-modal">Cancel</button>
+                <button class="btn-primary" id="btn-submit-modal"><i data-lucide="plus"></i> Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
